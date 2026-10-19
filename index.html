@@ -1,1 +1,1106 @@
-hello Word
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Informatika Kelas X - BAB 2 TIK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .timer.warning {
+            background: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .content { padding: 30px; }
+        
+        .form-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-container h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        
+        .form-group { margin-bottom: 20px; }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border 0.3s;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .start-btn, .reset-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: none;
+        }
+        
+        .start-btn:hover, .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+        
+        .info-box strong { display: block; margin-bottom: 5px; }
+        
+        .warning-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #721c24;
+        }
+        
+        .warning-box strong { display: block; margin-bottom: 5px; }
+        
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 15px;
+        }
+        
+        .option input[type="radio"]:checked + label {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .submit-info {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .copy-warning {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #dc3545;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 9999;
+            display: none;
+            font-weight: bold;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .copy-warning.show { display: block; }
+        
+        .screenshot-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(220, 53, 69, 0.95);
+            color: white;
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .screenshot-warning.show { display: flex; }
+        
+        .screenshot-warning h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .screenshot-warning p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .screenshot-warning button {
+            padding: 15px 40px;
+            background: white;
+            color: #dc3545;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .violation-counter {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 9998;
+            display: none;
+        }
+        
+        .violation-counter.show { display: block; }
+        
+        /* Modal Reset */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-overlay.show { display: flex; }
+        
+        .modal-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .modal-box h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .modal-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-box button {
+            padding: 12px 30px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .btn-confirm {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-cancel {
+            background: #ccc;
+            color: #333;
+        }
+        
+        .admin-hint {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            z-index: 9997;
+            opacity: 0.5;
+        }
+        
+        @keyframes slideDown {
+            from { top: -50px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
+        }
+        
+        .result {
+            display: none;
+            text-align: center;
+            padding: 50px 30px;
+        }
+        
+        .result.show { display: block; }
+        
+        .student-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .student-info p {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .student-info strong {
+            color: #667eea;
+            display: inline-block;
+            width: 150px;
+        }
+        
+        .score {
+            font-size: 72px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        
+        .score-label {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .grade {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .grade.A { background: #d4edda; color: #155724; }
+        .grade.B { background: #d1ecf1; color: #0c5460; }
+        .grade.C { background: #fff3cd; color: #856404; }
+        .grade.D { background: #f8d7da; color: #721c24; }
+        
+        .hidden { display: none; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 22px; }
+            .timer { font-size: 20px; }
+            .question-text { font-size: 15px; }
+            .option label { font-size: 14px; }
+            .student-info strong { display: block; width: auto; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
+    
+    <div class="copy-warning" id="copyWarning">⚠️ Konten soal tidak dapat disalin!</div>
+    
+    <div class="screenshot-warning" id="screenshotWarning">
+        <h2>⚠️ PERINGATAN KEAMANAN</h2>
+        <p>Terdeteksi aktivitas screenshot atau pengambilan gambar layar!</p>
+        <button onclick="closeScreenshotWarning()">SAYA MENGERTI</button>
+    </div>
+    
+    <div class="violation-counter" id="violationCounter">
+        Pelanggaran: <span id="violationCount">0</span>
+    </div>
+    
+    <!-- Modal Reset Admin -->
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal-box">
+            <h3>🔐 Reset Kuis (Admin)</h3>
+            <p style="margin-bottom: 15px; color: #666;">Masukkan password admin untuk mereset kuis:</p>
+            <input type="password" id="adminPassword" placeholder="Password admin">
+            <div>
+                <button class="btn-confirm" onclick="confirmReset()">RESET</button>
+                <button class="btn-cancel" onclick="closeResetModal()">BATAL</button>
+            </div>
+            <p id="resetError" style="color: #dc3545; margin-top: 10px; display: none;">Password salah!</p>
+        </div>
+    </div>
+    
+    <!-- Hint untuk admin (kecil di pojok) -->
+    <div class="admin-hint" id="adminHint">Admin: Ctrl+Shift+R</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>KUIS INFORMATIKA KELAS X</h1>
+            <p>BAB 2: TEKNOLOGI INFORMASI DAN KOMUNIKASI (TIK)</p>
+            <div class="timer" id="timer" style="display:none;">30:00</div>
+        </div>
+        
+        <div class="content" id="formContent">
+            <div class="form-container">
+                <h2>Data Peserta</h2>
+                <div class="info-box">
+                    <strong>⚠️ Petunjuk Pengerjaan:</strong>
+                    • Waktu pengerjaan: <b>30 menit</b><br>
+                    • Soal pilihan ganda: <b>50 soal</b><br>
+                    • Tombol kumpulkan akan aktif setelah waktu habis<br>
+                    • Pastikan data diri diisi dengan benar<br>
+                    • <b>Jangan refresh halaman!</b> Waktu akan terus berjalan
+                </div>
+                <div class="warning-box">
+                    <strong>🔒 Peringatan Keamanan:</strong>
+                    • Dilarang melakukan copy-paste pada soal<br>
+                    • Dilarang menggunakan klik kanan<br>
+                    • Dilarang menggunakan shortcut keyboard<br>
+                    • <b>DILARANG MELAKUKAN SCREENSHOT</b><br>
+                    • Setiap pelanggaran akan tercatat
+                </div>
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div class="form-group">
+                    <label for="nomor">Nomor Absen</label>
+                    <input type="text" id="nomor" placeholder="Masukkan nomor absen" required>
+                </div>
+                <div class="form-group">
+                    <label for="kelas">Kelas</label>
+                    <input type="text" id="kelas" placeholder="Contoh: X-TKJ1" required>
+                </div>
+                <button type="button" class="start-btn" onclick="startQuiz()">MULAI KUIS</button>
+            </div>
+        </div>
+        
+        <div class="content hidden" id="quizContent">
+            <form id="quizForm"></form>
+            <button type="button" class="submit-btn" id="submitBtn" onclick="submitQuiz()" disabled>KUMPULKAN JAWABAN</button>
+            <p class="submit-info" id="submitInfo">Tombol akan aktif setelah waktu pengerjaan habis (30 menit)</p>
+        </div>
+        
+        <div class="result" id="result">
+            <div class="student-info" id="studentInfo"></div>
+            <div class="score-label">NILAI ANDA</div>
+            <div class="score" id="score">0</div>
+            <div class="grade" id="grade"></div>
+            <p style="color: #666; margin-top: 20px;">Terima kasih telah mengerjakan kuis ini.</p>
+            <!-- Tombol Reset untuk Admin (tersembunyi, hanya muncul saat mode admin) -->
+            <button type="button" class="reset-btn" id="resetResultBtn" onclick="openResetModal()">🔐 Reset Kuis (Admin)</button>
+        </div>
+    </div>
+
+    <script>
+        // ============ KONFIGURASI ============
+        const QUIZ_DURATION = 30 * 60 * 1000;
+        const STORAGE_KEY = 'quizTIK_Kelas10_BAB2';
+        const ADMIN_PASSWORD = 'guru123'; // ⚠️ GANTI PASSWORD INI!
+        
+        let violationCount = 0;
+        let quizStarted = false;
+        let quizSubmitted = false;
+        let timeLeft = QUIZ_DURATION / 1000;
+        let timerId;
+        let studentData = {};
+        
+        // ============ DATA SOAL ============
+        const questions = [
+            {q: "Komunikasi daring yang terjadi secara serempak atau real-time, di mana pengirim dan penerima informasi dapat langsung saling merespons pada saat yang bersamaan, disebut dengan komunikasi daring...", options: ["Sinkron", "Asinkron", "Semu", "Tertunda", "Tertunda"], answer: 0},
+            {q: "Dalam mesin pencari Google, operator pencarian yang digunakan untuk memfilter hasil pencarian agar hanya menampilkan dokumen dengan format tertentu (misalnya PDF) adalah...", options: ["Site:", "Filetype:", "Define:", "\" \" (Tanda petik dua)", "Intitle:"], answer: 1},
+            {q: "Fitur pada Microsoft Word yang digunakan untuk membuat daftar isi secara otomatis berdasarkan garis besar isi dokumen yang telah dibuat adalah...", options: ["Mail Merge", "Hyperlink", "Table of Contents", "Object Linking", "Paste Special"], answer: 2},
+            {q: "Object Linking and Embedding (OLE) merupakan fitur pada Microsoft Office yang berfungsi untuk...", options: ["Menghapus data yang tidak terpakai", "Menggabungkan suatu objek yang berasal dari aplikasi lain", "Mengunci dokumen agar tidak bisa dibuka", "Mengubah format file Word menjadi PDF", "Membuat daftar isi secara otomatis"], answer: 1},
+            {q: "Sesuai dengan aspek Kesehatan, Keselamatan Kerja, dan Lingkungan (K3L), jarak pandang minimal antara mata pengguna dengan layar komputer yang disarankan adalah...", options: ["20 cm", "30 cm", "35 cm", "40 cm", "50 cm"], answer: 3},
+            {q: "Penggunaan tanda petik dua (\" \") pada kolom pencarian Google bertujuan untuk...", options: ["Mencari arti dari kata-kata yang sedang tren", "Mencari informasi yang lebih spesifik sesuai frasa yang diapit tanda petik", "Menampilkan situs web dari negara tertentu", "Memfilter pencarian berdasarkan jenis file", "Menghilangkan hasil pencarian dari situs tertentu"], answer: 1},
+            {q: "Aplikasi media komunikasi yang memungkinkan pengguna untuk melakukan panggilan grup (New group call) selain berkirim pesan teks adalah...", options: ["Email", "WhatsApp", "Notepad", "Paint", "Calculator"], answer: 1},
+            {q: "Dalam pembuatan daftar isi otomatis (Table of Contents), style yang digunakan untuk menandai setiap bab utama (judul bab) adalah...", options: ["Normal", "Subtitle", "Heading 1", "Heading 2", "Caption"], answer: 2},
+            {q: "Jika data pada sumber objek (misalnya Excel) diubah dan perubahan tersebut juga otomatis memperbarui objek yang ditempel di Word, maka metode yang digunakan adalah...", options: ["Object Embedding", "Object Linking", "Copy Paste biasa", "Print Screen", "Screenshot"], answer: 1},
+            {q: "Operator pencarian \"site:id\" pada mesin pencari digunakan untuk...", options: ["Mencari file dengan ekstensi .id", "Menampilkan situs web yang berasal dari negara Indonesia saja", "Mencari definisi kata dalam bahasa Indonesia", "Memblokir situs web dari Indonesia", "Mencari situs web dengan kecepatan tinggi"], answer: 1},
+            {q: "Langkah awal untuk melakukan panggilan grup di WhatsApp adalah membuka aplikasi, kemudian mengetuk tab Panggilan dan mengetuk ikon...", options: ["Kamera", "Pesan", "Telepon dengan tanda tambah (+)", "Pengaturan", "Status"], answer: 2},
+            {q: "Dalam fitur Mail Merge, file yang berfungsi sebagai sumber data (berisi nama-nama atau data variabel) biasanya dibuat menggunakan aplikasi...", options: ["Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Paint", "Notepad"], answer: 1},
+            {q: "Untuk menyisipkan tabel dari Microsoft Excel ke dalam slide Microsoft PowerPoint agar memiliki fitur lengkap Excel, menu yang dipilih adalah Insert > Table > ...", options: ["Word Table", "Draw Table", "Excel Spreadsheet", "Text Box", "SmartArt"], answer: 2},
+            {q: "Berdasarkan prinsip K3L, posisi kaki yang benar saat duduk di depan komputer adalah menapak di lantai dengan lutut menekuk membentuk sudut...", options: ["45°", "60°", "75°", "90°", "120°"], answer: 3},
+            {q: "Fitur pencarian \"Define\" pada Google Search digunakan untuk...", options: ["Mencari lokasi peta", "Mencari arti atau definisi dari kata-kata tertentu", "Mencari file video", "Mencari situs web berita", "Menghitung nilai matematika"], answer: 1},
+            {q: "Untuk membuat jadwal rapat di Zoom Meeting menggunakan laptop, setelah membuka aplikasi dan Sign In, langkah selanjutnya yang harus dipilih adalah...", options: ["Join", "Schedule", "New Meeting", "Share Screen", "Record"], answer: 1},
+            {q: "Salah satu kelebihan Microsoft Bing Search dibandingkan mesin pencari lain yang disebutkan dalam materi adalah...", options: ["Memiliki fitur email bawaan yang lebih canggih", "Gambar yang ditampilkan pada mesin pencari lebih banyak dan detail", "Merupakan mesin pencari default dari Mozilla Firefox", "Tidak memerlukan koneksi internet", "Hanya bisa mencari informasi dalam bahasa Inggris"], answer: 1},
+            {q: "Jika setelah menerapkan Heading untuk tiap bab formatnya berubah dan tidak sesuai keinginan, cara mengubahnya adalah dengan klik kanan pada Style kemudian memilih...", options: ["Delete", "Update", "Modify", "New Style", "Clear Formatting"], answer: 2},
+            {q: "Setelah naskah utama (Word) dan data sumber (Excel) terhubung dalam Mail Merge, langkah untuk memasukkan data ke dalam naskah adalah dengan memilih sub menu...", options: ["Start Mail Merge", "Select Recipients", "Insert Merge Field", "Preview Results", "Finish & Merge"], answer: 2},
+            {q: "Perbedaan mendasar antara Object Linking dan Object Embedding adalah...", options: ["Linking membuat file menjadi lebih besar, Embedding membuat file lebih kecil", "Linking menghubungkan data (perubahan sumber mempengaruhi objek), Embedding hanya menempelkan data (independen dari sumber)", "Linking hanya bisa dilakukan di PowerPoint, Embedding hanya di Word", "Linking menggunakan format gambar, Embedding menggunakan format teks", "Tidak ada perbedaan, keduanya memiliki fungsi yang sama persis"], answer: 1},
+            {q: "Langkah untuk membuat diagram pada Microsoft Word adalah dengan membuka aplikasi, lalu klik menu...", options: ["Home > Chart", "Insert > Chart", "Design > Chart", "Layout > Chart", "References > Chart"], answer: 1},
+            {q: "Untuk menghubungkan sebuah teks di PowerPoint agar ketika diklik langsung menuju slide tertentu dalam presentasi yang sama, fitur yang digunakan adalah...", options: ["Transition", "Animation", "Hyperlink (Place in This Document)", "Hyperlink (Existing File or Web Page)", "Action Button"], answer: 2},
+            {q: "Untuk membuat atau menjadwalkan rapat baru di Google Meet melalui laptop, langkah pertama yang dilakukan setelah membuka Gmail adalah mengklik ikon...", options: ["Gambar amplop", "Google Apps (titik sembilan)", "Gambar roda gigi (Settings)", "Gambar profil pengguna", "Gambar tanda tanya"], answer: 1},
+            {q: "Kombinasi pencarian yang paling tepat untuk menemukan dokumen berformat PDF yang membahas \"pemanasan global\" adalah...", options: ["\"pemanasan global\" OR pdf", "pemanasan global AND filetype:pdf", "pemanasan global site:pdf", "define: pemanasan global pdf", "\"pemanasan global\" filetype:pdf"], answer: 4},
+            {q: "Fungsi dari fitur \"Update Table\" pada menu References di Microsoft Word adalah untuk...", options: ["Menghapus seluruh daftar isi", "Membuat daftar isi dari awal", "Menyinkronkan daftar isi dengan perubahan terbaru (penambahan/penghapusan judul) dalam dokumen", "Mengubah font seluruh dokumen", "Menyimpan dokumen dalam format PDF"], answer: 2},
+            {q: "Ketika data yang sudah di-embed (Object Embedding) dari Excel ke Word diklik dua kali, maka yang akan terjadi adalah...", options: ["Data akan terhapus", "Tampilan akan berubah menjadi worksheet Excel di dalam Word, memungkinkan pengeditan data", "Komputer akan restart otomatis", "File Excel asli di folder akan terbuka dan Word akan tertutup", "Muncul pesan error \"File not found\""], answer: 1},
+            {q: "Menurut pedoman K3L, posisi leher yang benar saat menggunakan komputer adalah...", options: ["Menunduk tajam", "Menengadah ke atas", "Miring ke kiri", "Lurus sejajar dengan tubuh", "Bersandar ke bahu"], answer: 3},
+            {q: "Dalam Zoom Meeting, setelah mengisi judul rapat, tanggal, dan jam pelaksanaan pada menu Schedule, tombol yang diklik untuk menyimpan jadwal adalah...", options: ["Cancel", "Delete", "Done", "Invite", "Save as Draft"], answer: 2},
+            {q: "Mesin pencari yang disebutkan dalam materi sebagai salah satu mesin pencari default yang digunakan oleh browser Mozilla Firefox adalah...", options: ["Google Search", "Microsoft Bing", "Yahoo! Search", "DuckDuckGo", "Baidu"], answer: 2},
+            {q: "Pada proses Mail Merge, untuk melihat apakah nama-nama peserta sudah muncul dengan benar pada naskah utama sebelum dicetak massal, kita dapat menggunakan sub menu...", options: ["Edit Recipient List", "Rules", "Highlight Merge Fields", "Preview Results", "Find Recipient"], answer: 3},
+            {q: "Jika kita ingin menyisipkan grafik ke dalam PowerPoint dan data grafiknya ingin diolah menggunakan antarmuka Excel, langkah yang benar adalah Insert > Chart, lalu...", options: ["Memilih jenis diagram, lalu data akan otomatis terbuka di worksheet Excel", "Mengetik data langsung di slide PowerPoint", "Meng-copy gambar grafik dari internet", "Menggunakan fitur Screenshot", "Menulis rumus matematika di Text Box"], answer: 0},
+            {q: "Komunikasi daring asinkron adalah komunikasi yang...", options: ["Terjadi secara langsung dan real-time", "Tidak terjadi secara serempak, penerima dapat membalas pesan di waktu yang berbeda", "Hanya dapat dilakukan melalui panggilan video", "Membutuhkan kehadiran fisik di lokasi yang sama", "Tidak menggunakan perangkat elektronik"], answer: 1},
+            {q: "Untuk mencari frasa yang persis sama seperti yang diketik, misalnya \"sistem informasi manajemen\", tanpa mesin pencari memecah kata-katanya, kita harus mengapitnya dengan...", options: ["Tanda kurung ( )", "Tanda kurung siku [ ]", "Tanda petik dua \" \"", "Tanda bintang *", "Tanda tanya ?"], answer: 2},
+            {q: "Selain membuat sertifikat, fitur Mail Merge juga sangat efektif digunakan untuk membuat...", options: ["Video presentasi", "Envelope (amplop) surat undangan massal", "Diagram lingkaran", "Animasi slide", "Kode program"], answer: 1},
+            {q: "Jika kita memilih opsi \"Existing File or Web Page\" saat membuat Hyperlink di PowerPoint, maka tujuannya adalah...", options: ["Menghubungkan ke slide lain dalam presentasi yang sama", "Menghubungkan ke dokumen lain di komputer atau website di luar file PowerPoint", "Menghubungkan ke printer", "Menghubungkan ke file audio internal", "Menghapus slide yang tidak diperlukan"], answer: 1},
+            {q: "Seorang peneliti ingin mencari dokumen akademik berformat PDF tentang \"kurikulum merdeka\" yang hanya diterbitkan oleh situs web institusi pendidikan di Indonesia (.ac.id). Query pencarian Google yang paling tepat dan efisien adalah...", options: ["\"kurikulum merdeka\" filetype:pdf site:ac.id", "kurikulum merdeka OR pdf OR ac.id", "define: kurikulum merdeka pdf ac.id", "\"kurikulum merdeka\" AND pdf AND ac.id", "site:pdf kurikulum merdeka ac.id"], answer: 0},
+            {q: "Seorang admin sekolah membuat sertifikat menggunakan Mail Merge. Ia menggunakan metode Object Embedding untuk menempelkan logo sekolah dari file Excel ke Word. Ketika file logo di Excel diperbarui, logo di sertifikat Word tidak berubah. Penyebabnya adalah...", options: ["File Excel telah dihapus", "Object Embedding menciptakan salinan independen yang tidak terhubung dengan sumber aslinya", "Microsoft Word mengalami error", "Seharusnya menggunakan fitur Table of Contents", "Komputer tidak terhubung ke internet"], answer: 1},
+            {q: "Dalam sebuah laporan, diagram yang disisipkan dari Excel ke Word tidak diperbarui nilainya meskipun data di file Excel sumber sudah diubah. Untuk mengatasi ini di masa depan, saat melakukan Paste Special, pengguna seharusnya memilih...", options: ["Paste", "Paste as Picture", "Paste Link", "Keep Text Only", "Merge Formatting"], answer: 2},
+            {q: "Seorang siswa ingin membuat daftar isi otomatis, tetapi setelah mengklik \"Table of Contents\", hasilnya kosong atau tidak menampilkan bab-babnya. Kesalahan yang paling mungkin dilakukan siswa tersebut adalah...", options: ["Lupa menyimpan file sebelum membuat daftar isi", "Tidak menandai judul bab dan sub-bab menggunakan style Heading (Heading 1, Heading 2, dst.)", "Menggunakan font yang tidak didukung", "Jumlah halaman dokumen terlalu sedikit", "Tidak mengaktifkan fitur Track Changes"], answer: 1},
+            {q: "Seorang manajer perlu mengadakan rapat video mendadak dalam 5 menit ke depan tanpa perlu mengatur tanggal atau waktu khusus. Fitur Google Meet yang paling efisien untuk digunakan adalah...", options: ["Schedule in Google Calendar", "Create a meeting for later", "Start an instant meeting", "Join with a code", "Get a meeting link to share"], answer: 2},
+            {q: "Seorang pekerja mengeluh matanya cepat lelah dan lehernya sakit setelah bekerja seharian di depan komputer. Berdasarkan prinsip K3L, solusi perbaikan yang paling komprehensif adalah...", options: ["Meningkatkan kecerahan layar hingga 100% dan duduk bersandar miring", "Mengatur pencahayaan layar agar tidak silau, duduk tegak, leher lurus, dan jarak pandang minimal 40 cm", "Menggunakan mouse nirkabel agar tangan lebih bebas", "Menambah kecepatan prosesor komputer", "Bekerja sambil berbaring di kasur"], answer: 1},
+            {q: "Dalam proses Mail Merge, setelah memilih file sumber data Excel, langkah untuk menempatkan variabel (misalnya kolom \"NAMA\") ke dalam naskah utama Word dilakukan dengan cara...", options: ["Mengetik nama kolom secara manual dengan tanda kurung", "Menggunakan menu Insert > Picture", "Meletakkan kursor di posisi yang diinginkan, lalu klik Insert Merge Field dan memilih nama kolom", "Menggunakan fitur Copy-Paste dari Excel ke Word", "Menggunakan fitur Find and Replace"], answer: 2},
+            {q: "Sebuah perusahaan ingin presentasi PowerPoint-nya menampilkan data penjualan yang selalu mutakhir (real-time) setiap kali file presentasi dibuka, tanpa harus mengedit slide-nya. Metode integrasi yang wajib digunakan adalah...", options: ["Object Embedding (Paste biasa)", "Object Linking (Paste Link)", "Screenshot data Excel", "Mengetik ulang data di PowerPoint", "Menggunakan fitur Animation"], answer: 1},
+            {q: "Analisis perbedaan mendasar antara \"Paste\" dan \"Paste Link\" pada dialog box Paste Special adalah...", options: ["\"Paste\" menciptakan hubungan dinamis, \"Paste Link\" menciptakan salinan statis", "\"Paste\" menciptakan salinan statis (independen), \"Paste Link\" menciptakan hubungan dinamis (terkait sumber)", "\"Paste\" hanya untuk teks, \"Paste Link\" hanya untuk gambar", "\"Paste\" membutuhkan internet, \"Paste Link\" tidak", "Tidak ada perbedaan, keduanya adalah fitur dekoratif"], answer: 1},
+            {q: "Untuk membuat hyperlink pada teks di PowerPoint yang mengarah ke slide ke-5 dalam presentasi yang sama, urutan langkah yang benar adalah...", options: ["Blok teks > Insert > Hyperlink > Existing File or Web Page > Pilih file", "Blok teks > Insert > Hyperlink > Place in This Document > Pilih slide ke-5", "Blok teks > Design > Hyperlink > New Slide", "Blok teks > Animations > Hyperlink > Next Slide", "Blok teks > Review > Hyperlink > Comments"], answer: 1},
+            {q: "Seorang siswa mendengar istilah \"Metaverse\" dan ingin mengetahui definisi atau arti kata tersebut dengan cepat melalui mesin pencari Google tanpa harus membuka situs web ensiklopedia secara manual. Fitur yang paling tepat digunakan adalah...", options: ["Mengetik \"Metaverse\" filetype:doc", "Mengetik site:metaverse", "Mengetik \"Metaverse\" dengan tanda petik", "Mengetik Define: Metaverse", "Mengetik Metaverse OR arti"], answer: 3},
+            {q: "Mengapa fitur Mail Merge memerlukan dua file terpisah (satu file Excel sebagai sumber data dan satu file Word sebagai naskah utama)?", options: ["Karena Microsoft Word tidak memiliki fitur penyimpanan data", "Agar proses penggabungan data yang banyak ke dalam format dokumen yang sama dapat dilakukan secara otomatis, cepat, dan praktis", "Karena file Excel tidak bisa dibuka di Microsoft Word", "Agar file menjadi lebih besar dan sulit disalin", "Karena ini adalah persyaratan hukum dari Microsoft"], answer: 1},
+            {q: "Dalam penerapan K3L di lingkungan kerja, posisi duduk yang ergonomis mencakup beberapa hal. Pernyataan berikut yang PALING TEPAT sesuai materi adalah...", options: ["Duduk tegak, leher lurus, jarak pandang minimal 40 cm, kaki menapak di lantai dengan lutut menekuk 90°", "Duduk santai bersandar, jarak pandang 20 cm, kaki diangkat ke atas meja", "Duduk tegak, jarak pandang 10 cm, kaki bersila di kursi", "Duduk miring ke kiri agar tangan kanan leluasa, jarak pandang 50 cm", "Duduk tegak, tanpa sandaran punggung, jarak pandang 30 cm"], answer: 0},
+            {q: "Seorang jurnalis ingin mencari berita tentang \"banjir Jakarta\" tetapi hanya ingin mengambil sumber dari situs berita resmi pemerintah (domain .go.id). Query pencarian yang paling akurat adalah...", options: ["\"banjir Jakarta\" AND .go.id", "banjir Jakarta filetype:go.id", "\"banjir Jakarta\" site:go.id", "define: banjir Jakarta go.id", "banjir Jakarta OR site:go.id"], answer: 2},
+            {q: "Seorang pengguna mencoba memperbarui daftar isi (Update Table), tetapi beberapa judul bab baru yang ia tambahkan tidak muncul di daftar isi. Penyebab paling mungkin berdasarkan alur kerja yang benar adalah...", options: ["Pengguna lupa mengklik tombol \"Save\" pada dokumen", "Judul bab baru tersebut belum diberi style Heading (misalnya Heading 1 atau Heading 2) sebelum melakukan Update Table", "Dokumen memiliki terlalu banyak halaman", "Font yang digunakan pada judul bab baru berbeda dengan bab lama", "Fitur Table of Contents hanya bisa digunakan satu kali per dokumen"], answer: 1}
+        ];
+        
+        // ============ FITUR ANTI-COPY ============
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showCopyWarning();
+            return false;
+        });
+        
+        document.addEventListener('copy', function(e) {
+            if (!isInputFocused()) {
+                e.preventDefault();
+                showCopyWarning();
+                recordViolation();
+                return false;
+            }
+        });
+        
+        document.addEventListener('cut', function(e) {
+            if (!isInputFocused()) {
+                e.preventDefault();
+                showCopyWarning();
+                recordViolation();
+                return false;
+            }
+        });
+        
+        document.addEventListener('paste', function(e) {
+            if (!isInputFocused()) {
+                e.preventDefault();
+                showCopyWarning();
+                recordViolation();
+                return false;
+            }
+        });
+        
+        document.addEventListener('selectstart', function(e) {
+            if (!isInputFocused(e)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // ============ FITUR ANTI-SCREENSHOT ============
+        document.addEventListener('keydown', function(e) {
+            // ⭐ SHORTCUT ADMIN: Ctrl+Shift+R untuk reset
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'r') {
+                e.preventDefault();
+                e.stopPropagation();
+                openResetModal();
+                return false;
+            }
+            
+            if (e.key === 'PrintScreen' || e.keyCode === 44) {
+                e.preventDefault();
+                showScreenshotWarning();
+                recordViolation();
+                try { navigator.clipboard.writeText(''); } catch(err) {}
+                return false;
+            }
+            
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
+                e.preventDefault();
+                showCopyWarning();
+                recordViolation();
+                return false;
+            }
+            
+            if (e.ctrlKey || e.metaKey) {
+                const blockedKeys = ['c', 'x', 'v', 'a', 'u', 's'];
+                if (blockedKeys.includes(e.key.toLowerCase())) {
+                    if (!isInputFocused()) {
+                        e.preventDefault();
+                        showCopyWarning();
+                        recordViolation();
+                        return false;
+                    }
+                }
+            }
+            
+            if (e.key === 'F12') {
+                e.preventDefault();
+                showCopyWarning();
+                recordViolation();
+                return false;
+            }
+            
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+                const blockedKeys = ['i', 'j', 'c'];
+                if (blockedKeys.includes(e.key.toLowerCase())) {
+                    e.preventDefault();
+                    showCopyWarning();
+                    recordViolation();
+                    return false;
+                }
+            }
+        });
+        
+        window.addEventListener('blur', function() {
+            if (quizStarted && !quizSubmitted) {
+                setTimeout(function() {
+                    if (document.hidden) {
+                        showScreenshotWarning();
+                        recordViolation();
+                    }
+                }, 500);
+            }
+        });
+        
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && quizStarted && !quizSubmitted) {
+                showScreenshotWarning();
+                recordViolation();
+            }
+        });
+        
+        // ============ FUNGSI BANTUAN ============
+        function isInputFocused(e) {
+            const activeElement = document.activeElement;
+            if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+                return true;
+            }
+            if (e && e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+                return true;
+            }
+            return false;
+        }
+        
+        function showCopyWarning() {
+            const warning = document.getElementById('copyWarning');
+            warning.classList.add('show');
+            setTimeout(function() {
+                warning.classList.remove('show');
+            }, 2500);
+        }
+        
+        function showScreenshotWarning() {
+            const warning = document.getElementById('screenshotWarning');
+            warning.classList.add('show');
+            setTimeout(function() {
+                closeScreenshotWarning();
+            }, 5000);
+        }
+        
+        function closeScreenshotWarning() {
+            document.getElementById('screenshotWarning').classList.remove('show');
+        }
+        
+        function recordViolation() {
+            violationCount++;
+            const counter = document.getElementById('violationCounter');
+            const count = document.getElementById('violationCount');
+            counter.classList.add('show');
+            count.textContent = violationCount;
+            saveToStorage({violationCount: violationCount});
+            if (violationCount >= 5) {
+                alert('Anda telah melakukan 5 pelanggaran! Kuis akan otomatis dikumpulkan.');
+                submitQuiz();
+            }
+        }
+        
+        // ============ FUNGSI RESET ADMIN ============
+        function openResetModal() {
+            document.getElementById('resetModal').classList.add('show');
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('resetError').style.display = 'none';
+            setTimeout(() => {
+                document.getElementById('adminPassword').focus();
+            }, 100);
+        }
+        
+        function closeResetModal() {
+            document.getElementById('resetModal').classList.remove('show');
+        }
+        
+        function confirmReset() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                if (confirm('⚠️ Yakin ingin mereset kuis? Semua data peserta akan dihapus.')) {
+                    clearStorage();
+                    location.reload();
+                }
+            } else {
+                document.getElementById('resetError').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('resetError').style.display = 'none';
+                }, 2000);
+            }
+        }
+        
+        // Enter pada input password
+        document.addEventListener('DOMContentLoaded', function() {
+            const pwdInput = document.getElementById('adminPassword');
+            if (pwdInput) {
+                pwdInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        confirmReset();
+                    }
+                });
+            }
+        });
+        
+        // ============ LOCAL STORAGE ============
+        function getStorageData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : null;
+            } catch (e) { return null; }
+        }
+        
+        function saveToStorage(updates) {
+            try {
+                const current = getStorageData() || {};
+                const newData = {...current, ...updates};
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
+            } catch (e) {}
+        }
+        
+        function clearStorage() {
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        }
+        
+        // ============ INISIALISASI ============
+        function initializeQuiz() {
+            const savedData = getStorageData();
+            
+            if (savedData && savedData.submitted) {
+                showResultFromStorage(savedData);
+                // Tampilkan tombol reset untuk admin di halaman hasil
+                document.getElementById('resetResultBtn').style.display = 'block';
+                return;
+            }
+            
+            if (savedData && savedData.quizStarted && savedData.startTime) {
+                const elapsed = Date.now() - savedData.startTime;
+                const remainingMs = QUIZ_DURATION - elapsed;
+                
+                if (remainingMs <= 0) {
+                    studentData = savedData.studentData || {};
+                    violationCount = savedData.violationCount || 0;
+                    submitQuiz(true);
+                    return;
+                }
+                
+                studentData = savedData.studentData || {};
+                violationCount = savedData.violationCount || 0;
+                timeLeft = remainingMs / 1000;
+                quizStarted = true;
+                
+                document.getElementById('formContent').classList.add('hidden');
+                document.getElementById('quizContent').classList.remove('hidden');
+                document.getElementById('timer').style.display = 'block';
+                
+                if (violationCount > 0) {
+                    document.getElementById('violationCounter').classList.add('show');
+                    document.getElementById('violationCount').textContent = violationCount;
+                }
+                
+                loadQuestions();
+                if (savedData.answers) restoreAnswers(savedData.answers);
+                startTimer();
+                return;
+            }
+        }
+        
+        function restoreAnswers(answers) {
+            for (const qIndex in answers) {
+                const oIndex = answers[qIndex];
+                const radio = document.getElementById(`q${qIndex}_${oIndex}`);
+                if (radio) radio.checked = true;
+            }
+        }
+        
+        function showResultFromStorage(savedData) {
+            document.getElementById('formContent').classList.add('hidden');
+            document.getElementById('quizContent').classList.add('hidden');
+            document.getElementById('timer').style.display = 'none';
+            
+            const studentInfo = savedData.studentData || {};
+            const score = savedData.score || 0;
+            const percentage = Math.round((score / questions.length) * 100);
+            const violations = savedData.violationCount || 0;
+            
+            document.getElementById('score').textContent = percentage;
+            
+            let grade = '', gradeClass = '';
+            if (percentage >= 85) { grade = 'A (Sangat Baik)'; gradeClass = 'A'; }
+            else if (percentage >= 70) { grade = 'B (Baik)'; gradeClass = 'B'; }
+            else if (percentage >= 55) { grade = 'C (Cukup)'; gradeClass = 'C'; }
+            else { grade = 'D (Perlu Perbaikan)'; gradeClass = 'D'; }
+            
+            const gradeElement = document.getElementById('grade');
+            gradeElement.textContent = grade;
+            gradeElement.className = `grade ${gradeClass}`;
+            
+            let violationInfo = '';
+            if (violations > 0) {
+                violationInfo = `<p style="color:#dc3545;"><strong>⚠️ Jumlah Pelanggaran:</strong> ${violations} kali</p>`;
+            }
+            
+            document.getElementById('studentInfo').innerHTML = `
+                <p><strong>Nama:</strong> ${studentInfo.nama || '-'}</p>
+                <p><strong>Nomor:</strong> ${studentInfo.nomor || '-'}</p>
+                <p><strong>Kelas:</strong> ${studentInfo.kelas || '-'}</p>
+                <p><strong>Jumlah Benar:</strong> ${score} dari ${questions.length} soal</p>
+                ${violationInfo}
+            `;
+            
+            document.getElementById('result').classList.add('show');
+            quizSubmitted = true;
+        }
+        
+        // ============ FUNGSI KUIS ============
+        function startQuiz() {
+            const nama = document.getElementById('nama').value.trim();
+            const nomor = document.getElementById('nomor').value.trim();
+            const kelas = document.getElementById('kelas').value.trim();
+            
+            if (!nama || !nomor || !kelas) {
+                alert('Mohon lengkapi semua data diri (Nama, Nomor, dan Kelas)!');
+                return;
+            }
+            
+            studentData = { nama, nomor, kelas };
+            
+            saveToStorage({
+                quizStarted: true,
+                startTime: Date.now(),
+                studentData: studentData,
+                violationCount: 0,
+                answers: {},
+                submitted: false
+            });
+            
+            document.getElementById('formContent').classList.add('hidden');
+            document.getElementById('quizContent').classList.remove('hidden');
+            document.getElementById('timer').style.display = 'block';
+            
+            quizStarted = true;
+            timeLeft = QUIZ_DURATION / 1000;
+            loadQuestions();
+            startTimer();
+        }
+        
+        function startTimer() {
+            updateTimerDisplay();
+            timerId = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    enableSubmit();
+                    setTimeout(() => {
+                        if (!quizSubmitted) submitQuiz(true);
+                    }, 10000);
+                }
+                
+                if (timeLeft <= 300 && timeLeft > 0) {
+                    document.getElementById('timer').classList.add('warning');
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            const safeTime = Math.max(0, timeLeft);
+            const minutes = Math.floor(safeTime / 60);
+            const seconds = Math.floor(safeTime % 60);
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function enableSubmit() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = false;
+            document.getElementById('submitInfo').innerHTML = '<strong style="color:#28a745;">✓ Waktu habis! Silakan kumpulkan jawaban Anda.</strong>';
+        }
+        
+        function loadQuestions() {
+            const form = document.getElementById('quizForm');
+            form.innerHTML = '';
+            
+            questions.forEach((question, qIndex) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                let optionsHTML = '';
+                question.options.forEach((option, oIndex) => {
+                    optionsHTML += `
+                        <div class="option">
+                            <input type="radio" name="q${qIndex}" id="q${qIndex}_${oIndex}" value="${oIndex}" onchange="saveAnswer(${qIndex}, ${oIndex})">
+                            <label for="q${qIndex}_${oIndex}">${String.fromCharCode(65 + oIndex)}. ${option}</label>
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question-text">${qIndex + 1}. ${question.q}</div>
+                    <div class="options">${optionsHTML}</div>
+                `;
+                
+                form.appendChild(questionDiv);
+            });
+        }
+        
+        function saveAnswer(qIndex, oIndex) {
+            const savedData = getStorageData() || {};
+            const answers = savedData.answers || {};
+            answers[qIndex] = oIndex;
+            saveToStorage({ answers: answers });
+        }
+        
+        function submitQuiz(autoSubmit = false) {
+            if (quizSubmitted) return;
+            
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            
+            let score = 0;
+            const answers = {};
+            
+            questions.forEach((question, qIndex) => {
+                const answer = formData.get(`q${qIndex}`);
+                if (answer !== null) {
+                    const answerInt = parseInt(answer);
+                    answers[qIndex] = answerInt;
+                    if (answerInt === question.answer) score++;
+                }
+            });
+            
+            clearInterval(timerId);
+            quizSubmitted = true;
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            
+            saveToStorage({
+                submitted: true,
+                score: score,
+                percentage: percentage,
+                answers: answers,
+                submitTime: Date.now(),
+                autoSubmit: autoSubmit
+            });
+            
+            document.getElementById('score').textContent = percentage;
+            
+            let grade = '', gradeClass = '';
+            if (percentage >= 85) { grade = 'A (Sangat Baik)'; gradeClass = 'A'; }
+            else if (percentage >= 70) { grade = 'B (Baik)'; gradeClass = 'B'; }
+            else if (percentage >= 55) { grade = 'C (Cukup)'; gradeClass = 'C'; }
+            else { grade = 'D (Perlu Perbaikan)'; gradeClass = 'D'; }
+            
+            const gradeElement = document.getElementById('grade');
+            gradeElement.textContent = grade;
+            gradeElement.className = `grade ${gradeClass}`;
+            
+            let violationInfo = '';
+            if (violationCount > 0) {
+                violationInfo = `<p style="color:#dc3545;"><strong>⚠️ Jumlah Pelanggaran:</strong> ${violationCount} kali</p>`;
+            }
+            
+            document.getElementById('studentInfo').innerHTML = `
+                <p><strong>Nama:</strong> ${studentData.nama}</p>
+                <p><strong>Nomor:</strong> ${studentData.nomor}</p>
+                <p><strong>Kelas:</strong> ${studentData.kelas}</p>
+                <p><strong>Jumlah Benar:</strong> ${score} dari ${questions.length} soal</p>
+                ${violationInfo}
+            `;
+            
+            document.getElementById('quizContent').classList.add('hidden');
+            document.getElementById('timer').style.display = 'none';
+            document.getElementById('violationCounter').classList.remove('show');
+            document.getElementById('result').classList.add('show');
+            
+            // Tampilkan tombol reset untuk admin di halaman hasil
+            document.getElementById('resetResultBtn').style.display = 'block';
+        }
+        
+        window.onload = function() {
+            initializeQuiz();
+        };
+        
+        window.addEventListener('beforeunload', function(e) {
+            if (quizStarted && !quizSubmitted) {
+                const message = 'Kuis sedang berlangsung! Jika Anda refresh, waktu akan terus berjalan. Yakin ingin meninggalkan halaman?';
+                e.returnValue = message;
+                return message;
+            }
+        });
+    </script>
+</body>
+</html>
+
